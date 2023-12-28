@@ -142,35 +142,56 @@ img.add_border {
           </div>
           
         </header>
-    <div id="tipue_search_content">4.c << <a href='4.c.html'>Previous</a> <a href='6.c.html'>Next</a> >> 6.c<br /><h1>5.c</h1>
-<pre class="brush:html;auto-links:false;toolbar:false" contenteditable="false">#include &lt;stdio.h&gt; 
+    <div id="tipue_search_content">w6 << <a href='w6.html'>Previous</a> <a href='ANSIC.html'>Next</a> >> ANSIC<br /><h1>W7</h1>
+<pre class="brush:cpp;auto-links:false;toolbar:false" contenteditable="false">#include &lt;stdio.h&gt;
+#include &lt;gd.h&gt;
+#include &lt;math.h&gt;
 
-/* 
-   Variables to store the width and height of a rectangle in inches 
-*/
-int width;          
-int height;         
-
-int area;           /* Variable to store the area of the rectangle */
-int perimeter;      /* Variable to store the perimeter of the rectangle */
+void draw_japan_flag(gdImagePtr img);
+void draw_white_sun(gdImagePtr img, int center_x, int center_y, int sun_radius, int white, int red );
 
 int main() {
-    /* Assigning values to height and width */
-    height = 7;
-    width = 5;
+    // width 3: height 2
+    int width = 1200;
+    int height = 2 * width / 3;
 
-    /* Calculating the perimeter of the rectangle */
-    perimeter = 2*(height + width);
-    printf("Perimeter of the rectangle = %d inches\n", perimeter);
+    gdImagePtr img = gdImageCreateTrueColor(width, height);
+    gdImageAlphaBlending(img, 0);
 
-    /* Calculating the area of the rectangle */
-    area = height * width;
-    printf("Area of the rectangle = %d square inches\n", area);
+    draw_japan_flag(img);
 
-    return(0);
+    FILE *outputFile = fopen("./../images/japan_flag.png", "wb");
+    if (outputFile == NULL) {
+        fprintf(stderr, "Error opening the output file.\n");
+        return 1;
+    }
+    gdImagePngEx(img, outputFile, 9);
+    fclose(outputFile);
+    gdImageDestroy(img);
+    return 0;
+}
+
+void draw_japan_flag(gdImagePtr img) {
+    int width = gdImageSX(img);
+    int height = gdImageSY(img);
+    int red, white ;
+    int center_x =  0.5 * width;
+    int center_y =  0.5 * height;
+    int sun_radius = 145 ;
+
+    // Colors for the flag
+    red = gdImageColorAllocate(img, 242, 0, 0); // Red color
+    white = gdImageColorAllocate(img, 255, 255, 255); // White stripes
+
+
+    // 繪製白色矩形區域
+    gdImageFilledRectangle(img, 0, 0, width, height, white);
+
+
+    // 繪製太陽內部
+    gdImageFilledEllipse(img, center_x, center_y, sun_radius * 3, sun_radius * 3, red);
 }</pre>
-<p><img alt="" height="117" src="./../images/螢幕擷取畫面 2023-12-28 184533.png" width="400"/></p>
-<br />4.c << <a href='4.c.html'>Previous</a> <a href='6.c.html'>Next</a> >> 6.c</div>
+<p><img alt="" height="267" src="./../images/japan_flag.png" width="400"/></p><br />w6 << <a href='w6.html'>Previous</a> <a href='ANSIC.html'>Next</a> >> ANSIC</div>
         
     <!-- footer -->
       <div class="container">
